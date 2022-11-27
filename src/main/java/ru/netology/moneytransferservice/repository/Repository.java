@@ -1,52 +1,36 @@
 package ru.netology.moneytransferservice.repository;
 
+import au.com.bytecode.opencsv.CSVWriter;
 import ru.netology.moneytransferservice.entity.Operation;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @org.springframework.stereotype.Repository
 public class Repository {
 
-    private File file;
+    private Map<String, Operation> operations = new HashMap<>();
+
     final static String prefix = ("C:" + File.separator + "Users" + File.separator + "i.grachev" + File.separator
             + "IdeaProjects" + File.separator + "GIT projects" + File.separator + "MoneyTransferService" + File.separator);
 
 
-    public Repository() {
+    public void createOperation(Operation operation) {
 
-        file = new File(prefix + "operations.log");
-
-        try {
-            if (file.createNewFile()) {
-                System.out.println("Файл логирования создан");
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        operations.put(operation.getOperationId(), operation);
+        serializeOperations();
     }
 
-    StringBuilder sb = new StringBuilder();
-
-    public void createStringOfTransaction(Operation operation) {
-        sb.append(operation.getCardToNumber() + " ");
-        sb.append(operation.getCardFromCVV() + " ");
-        sb.append(operation.getCardFromValidTill() + " ");
-        sb.append(operation.getCardFromNumber() + " ");
-        sb.append(operation.getAmount().getValue() + " ");
-        sb.append(operation.getAmount().getCurrency() + " ");
-        sb.append(operation.getOperationId() + " ");
-
-        String text = sb.toString();
-        try(FileWriter writer = new FileWriter(file, true)) {
-            writer.write(text);
-            writer.flush();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+    private void serializeOperations() {
+        try (FileOutputStream fos = new FileOutputStream(prefix + "operations.dat");
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(operations);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
-
-
     }
-
+    public int getAmountOfId() {
+        return operations.size();
+    }
 }

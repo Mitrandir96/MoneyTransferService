@@ -16,9 +16,11 @@ public class Service {
     }
 
     public String postTransfer(Operation operation) {
-        int id = 1;
-        repository.createStringOfTransaction(operation);
-        return String.valueOf(id);
+        double fee = operation.getAmount().getValue() * 0.1;
+        operation.getAmount().setFee(fee);
+        operation.setOperationId(String.valueOf(repository.getAmountOfId() + 1));
+        repository.createOperation(operation);
+        return operation.getOperationId();
     }
 
 }

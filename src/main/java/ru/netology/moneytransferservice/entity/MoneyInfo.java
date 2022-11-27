@@ -7,5 +7,6 @@ public class MoneyInfo {
 
     private double value;
     private String currency;
+    private double fee;
 
 }
