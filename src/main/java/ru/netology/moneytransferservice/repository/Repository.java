@@ -15,6 +15,17 @@ public class Repository {
     final static String prefix = ("C:" + File.separator + "Users" + File.separator + "i.grachev" + File.separator
             + "IdeaProjects" + File.separator + "GIT projects" + File.separator + "MoneyTransferService" + File.separator);
 
+    public Repository() {
+        File file = new File(prefix + "operations.dat");
+        if (file.exists()) {
+            try (FileInputStream fis = new FileInputStream(prefix + "operations.dat");
+            ObjectInputStream ois = new ObjectInputStream(fis)) {
+                operations = (Map<String, Operation>) ois.readObject();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 
     public void createOperation(Operation operation) {
 
