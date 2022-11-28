@@ -20,7 +20,14 @@ public class Service {
         operation.getAmount().setFee(fee);
         operation.setOperationId(String.valueOf(repository.getAmountOfId() + 1));
         repository.createOperation(operation);
+        repository.serializeOperations();
         return operation.getOperationId();
     }
 
+
+    public String postConfirmOperation(Operation operation) {
+        repository.addDateAndResult(operation);
+        repository.serializeOperations();
+        return operation.getOperationId();
+    }
 }

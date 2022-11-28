@@ -4,6 +4,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 import ru.netology.moneytransferservice.entity.Operation;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 public class Repository {
 
     private Map<String, Operation> operations = new HashMap<>();
+
 
     final static String prefix = ("C:" + File.separator + "Users" + File.separator + "i.grachev" + File.separator
             + "IdeaProjects" + File.separator + "GIT projects" + File.separator + "MoneyTransferService" + File.separator);
@@ -30,10 +32,10 @@ public class Repository {
     public void createOperation(Operation operation) {
 
         operations.put(operation.getOperationId(), operation);
-        serializeOperations();
+
     }
 
-    private void serializeOperations() {
+    public void serializeOperations() {
         try (FileOutputStream fos = new FileOutputStream(prefix + "operations.dat");
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(operations);
@@ -43,5 +45,11 @@ public class Repository {
     }
     public int getAmountOfId() {
         return operations.size();
+    }
+
+    public void addDateAndResult(Operation operation) {
+        Operation savedOperation = operations.get(operation.getOperationId());
+        savedOperation.setResult("Операция выполнена");
+        savedOperation.setDateTime(LocalDateTime.now());
     }
 }
