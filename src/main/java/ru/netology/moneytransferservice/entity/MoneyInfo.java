@@ -1,5 +1,6 @@
 package ru.netology.moneytransferservice.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.*;
