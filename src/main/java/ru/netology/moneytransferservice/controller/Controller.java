@@ -20,7 +20,7 @@ public class Controller {
     }
 
     @PostMapping("/transfer")
-    public String postTransfer(@RequestBody @Valid Operation operation) {
+    public String postTransfer(@RequestBody @Validated Operation operation) {
         return service.postTransfer(operation);
     }
 
