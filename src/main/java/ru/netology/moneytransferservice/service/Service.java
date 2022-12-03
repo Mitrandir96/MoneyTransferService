@@ -1,10 +1,9 @@
 package ru.netology.moneytransferservice.service;
 
 
+import ru.netology.moneytransferservice.dto.PostResponse;
 import ru.netology.moneytransferservice.entity.Operation;
 import ru.netology.moneytransferservice.repository.Repository;
-
-import java.io.File;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -15,19 +14,23 @@ public class Service {
         this.repository = repository;
     }
 
-    public String postTransfer(Operation operation) {
+    public PostResponse postTransfer(Operation operation) {
+        var res = new PostResponse();
         double fee = operation.getAmount().getValue() * 0.1;
         operation.getAmount().setFee(fee);
-        operation.setOperationId(String.valueOf(repository.getAmountOfId() + 1));
+        res.setOperationId(String.valueOf(repository.getAmountOfId() + 1));
+        operation.setOperationId(res.getOperationId());
         repository.createOperation(operation);
         repository.serializeOperations();
-        return operation.getOperationId();
+        return res;
     }
 
 
-    public String postConfirmOperation(Operation operation) {
+    public PostResponse postConfirmOperation(Operation operation) {
+        var res = new PostResponse();
+        res.setOperationId(operation.getOperationId());
         repository.addDateAndResult(operation);
         repository.serializeOperations();
-        return operation.getOperationId();
+        return res;
     }
 }

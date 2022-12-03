@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.netology.moneytransferservice.controller.Controller;
+import ru.netology.moneytransferservice.dto.PostResponse;
 import ru.netology.moneytransferservice.entity.MoneyInfo;
 import ru.netology.moneytransferservice.entity.Operation;
-import ru.netology.moneytransferservice.repository.Repository;
 import ru.netology.moneytransferservice.service.Service;
 
 public class ControllerTest {
@@ -19,8 +19,10 @@ public class ControllerTest {
         var service = Mockito.mock(Service.class);
         var amount = new MoneyInfo();
         var operation = new Operation();
+        var res = new PostResponse();
+        res.setOperationId("5");
 
-        Mockito.when(service.postTransfer(operation)).thenReturn("5");
+        Mockito.when(service.postTransfer(operation)).thenReturn(res);
 
         amount.setValue(100);
         amount.setCurrency("RUR");
@@ -34,7 +36,7 @@ public class ControllerTest {
         var controller = new Controller(service);
 
         var actual = controller.postTransfer(operation);
-        var expected = "5";
+        var expected = res;
 
         Assert.assertEquals(expected, actual);
 

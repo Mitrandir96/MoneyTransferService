@@ -36,5 +36,7 @@ public class Operation implements Serializable {
 
     private String result;
 
+    private String code;
+
 
 }

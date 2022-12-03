@@ -4,10 +4,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.netology.moneytransferservice.dto.PostResponse;
 import ru.netology.moneytransferservice.entity.Operation;
 import ru.netology.moneytransferservice.service.Service;
-
-import javax.validation.Valid;
 
 
 @RestController
@@ -20,12 +19,12 @@ public class Controller {
     }
 
     @PostMapping("/transfer")
-    public String postTransfer(@RequestBody @Validated Operation operation) {
+    public PostResponse postTransfer(@RequestBody @Validated Operation operation) {
         return service.postTransfer(operation);
     }
 
     @PostMapping("/confirmOperation")
-    public String postConfirmOperation(@RequestBody Operation operation) {
+    public PostResponse postConfirmOperation(@RequestBody Operation operation) {
         return service.postConfirmOperation(operation);
     }
 

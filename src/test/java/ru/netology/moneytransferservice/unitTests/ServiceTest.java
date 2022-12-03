@@ -3,6 +3,7 @@ package ru.netology.moneytransferservice.unitTests;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import ru.netology.moneytransferservice.dto.PostResponse;
 import ru.netology.moneytransferservice.entity.MoneyInfo;
 import ru.netology.moneytransferservice.entity.Operation;
 import ru.netology.moneytransferservice.repository.Repository;
@@ -33,8 +34,11 @@ public class ServiceTest {
 
         var service = new Service(repository);
 
+        var res = new PostResponse();
+        res.setOperationId("6");
+
         var actual = service.postTransfer(operation);
-        var expected = "6";
+        var expected = res;
 
         Assert.assertEquals(expected, actual);
 

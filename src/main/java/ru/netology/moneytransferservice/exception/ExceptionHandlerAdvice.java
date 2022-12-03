@@ -15,7 +15,7 @@ public class ExceptionHandlerAdvice {
         var gson = new Gson();
         var err = new ErrorOfOperation();
         err.setMessage(e.getFieldError().getDefaultMessage());
-        err.setId(1);
+        err.setId(400);
         String ex = gson.toJson(err);
         return new ResponseEntity<>(ex, HttpStatus.BAD_REQUEST);
     }
@@ -24,7 +24,7 @@ public class ExceptionHandlerAdvice {
         var gson = new Gson();
         var err = new ErrorOfOperation();
         err.setMessage(e.getMessage());
-        err.setId(1);
+        err.setId(500);
         String ex = gson.toJson(err);
         return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
