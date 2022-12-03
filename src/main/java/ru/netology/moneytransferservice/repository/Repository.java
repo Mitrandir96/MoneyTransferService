@@ -1,6 +1,7 @@
 package ru.netology.moneytransferservice.repository;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import org.springframework.beans.factory.annotation.Value;
 import ru.netology.moneytransferservice.entity.Operation;
 
 import java.io.*;
@@ -14,13 +15,18 @@ public class Repository {
     private Map<String, Operation> operations = new HashMap<>();
 
 
-    final static String prefix = ("C:" + File.separator + "Users" + File.separator + "i.grachev" + File.separator
-            + "IdeaProjects" + File.separator + "GIT projects" + File.separator + "MoneyTransferService" + File.separator);
+    private String pathToFile = ("C:" + File.separator + "Users" + File.separator + "i.grachev" + File.separator
+            + "IdeaProjects" + File.separator + "GIT projects" + File.separator + "MoneyTransferService" + File.separator + "operations.dat");
+
+
+
+//    final static String prefix = ("C:" + File.separator + "Users" + File.separator + "i.grachev" + File.separator
+//            + "IdeaProjects" + File.separator + "GIT projects" + File.separator + "MoneyTransferService" + File.separator);
 
     public Repository() {
-        File file = new File(prefix + "operations.dat");
+        File file = new File(pathToFile);
         if (file.exists()) {
-            try (FileInputStream fis = new FileInputStream(prefix + "operations.dat");
+            try (FileInputStream fis = new FileInputStream(pathToFile);
             ObjectInputStream ois = new ObjectInputStream(fis)) {
                 operations = (Map<String, Operation>) ois.readObject();
             } catch (Exception ex) {
@@ -36,7 +42,7 @@ public class Repository {
     }
 
     public void serializeOperations() {
-        try (FileOutputStream fos = new FileOutputStream(prefix + "operations.dat");
+        try (FileOutputStream fos = new FileOutputStream(pathToFile);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(operations);
         } catch (Exception ex) {
